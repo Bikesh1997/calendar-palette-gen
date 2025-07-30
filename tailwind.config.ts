@@ -52,6 +52,21 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// Monthly colors for calendar cards
+				monthly: {
+					january: 'hsl(var(--january))',
+					february: 'hsl(var(--february))',
+					march: 'hsl(var(--march))',
+					april: 'hsl(var(--april))',
+					may: 'hsl(var(--may))',
+					june: 'hsl(var(--june))',
+					july: 'hsl(var(--july))',
+					august: 'hsl(var(--august))',
+					september: 'hsl(var(--september))',
+					october: 'hsl(var(--october))',
+					november: 'hsl(var(--november))',
+					december: 'hsl(var(--december))'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -67,6 +82,14 @@ export default {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
+			},
+			backgroundImage: {
+				'gradient-primary': 'var(--gradient-primary)',
+				'gradient-hero': 'var(--gradient-hero)'
+			},
+			boxShadow: {
+				'card': 'var(--shadow-card)',
+				'elevated': 'var(--shadow-elevated)'
 			},
 			keyframes: {
 				'accordion-down': {

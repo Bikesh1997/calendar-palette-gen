@@ -93,21 +93,18 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-hero">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <CalendarIcon className="w-10 h-10 text-primary" />
-            <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              Calendar Organizer
-            </h1>
-          </div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Import your calendar events, organize them by month, and create beautiful PDF overviews
+    <div className="min-h-screen bg-gray-50">
+      {/* Header - Orange background like reference */}
+      <div className="bg-gradient-header text-white py-8 mb-8">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-4xl font-bold">Yearly Planner</h1>
+          <p className="text-lg mt-2 text-white/90">
+            Import your calendar and organize your year
           </p>
         </div>
+      </div>
 
+      <div className="container mx-auto px-4 pb-8">
         {/* Upload Section */}
         {!hasData && (
           <div className="max-w-2xl mx-auto mb-12">
@@ -119,13 +116,16 @@ const Index = () => {
           </div>
         )}
 
-        {/* Monthly Cards Grid */}
+        {/* Monthly Cards Grid - 2 rows like reference */}
         {hasData && (
           <>
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-2xl font-bold text-foreground">
-                Annual Overview
-              </h2>
+            <div className="flex justify-between items-center mb-6">
+              <div className="flex items-center gap-3">
+                <CalendarIcon className="w-6 h-6 text-primary" />
+                <h2 className="text-xl font-bold text-foreground">
+                  Your Yearly Overview
+                </h2>
+              </div>
               <Button
                 onClick={generatePDFReport}
                 disabled={loading}
@@ -137,7 +137,8 @@ const Index = () => {
               </Button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+            {/* Grid layout matching reference: 3 columns x 4 rows */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8 max-w-6xl mx-auto">
               {MONTHS.map((month, index) => (
                 <MonthlyCard
                   key={month}

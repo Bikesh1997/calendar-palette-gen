@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
-import { Calendar } from 'lucide-react';
 
 interface MonthlyCardProps {
   month: string;
@@ -11,12 +10,6 @@ interface MonthlyCardProps {
   onTextChange: (text: string) => void;
 }
 
-const monthColors = [
-  'monthly-january', 'monthly-february', 'monthly-march', 'monthly-april',
-  'monthly-may', 'monthly-june', 'monthly-july', 'monthly-august',
-  'monthly-september', 'monthly-october', 'monthly-november', 'monthly-december'
-];
-
 const MonthlyCard: React.FC<MonthlyCardProps> = ({
   month,
   monthIndex,
@@ -24,65 +17,33 @@ const MonthlyCard: React.FC<MonthlyCardProps> = ({
   editableText,
   onTextChange
 }) => {
-  const monthColor = monthColors[monthIndex];
-
   return (
-    <Card className="relative overflow-hidden shadow-card hover:shadow-elevated transition-all duration-300 transform hover:-translate-y-1">
-      {/* Colorful header */}
+    <Card className="relative overflow-hidden shadow-card hover:shadow-elevated transition-all duration-200 h-80 bg-white border border-gray-200">
+      {/* Colorful header - matching reference design */}
       <div 
-        className={`h-16 flex items-center justify-center text-white font-bold text-lg relative`}
+        className="h-12 flex items-center justify-center text-white font-bold text-base relative"
         style={{ backgroundColor: `hsl(var(--${month.toLowerCase()}))` }}
       >
-        <Calendar className="w-5 h-5 mr-2" />
-        {month.toUpperCase()}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+        {month}
       </div>
       
-      {/* Content area */}
-      <div className="p-4 space-y-3">
-        {/* Original events preview */}
+      {/* Content area - clean and simple like reference */}
+      <div className="p-3 h-68 flex flex-col">
+        {/* Original events preview - compact */}
         {events.length > 0 && (
-          <div className="text-sm text-muted-foreground">
-            <p className="font-medium mb-2">Original Events ({events.length}):</p>
-            <div className="space-y-1 max-h-24 overflow-y-auto">
-              {events.slice(0, 3).map((event, index) => (
-                <div key={index} className="text-xs bg-muted/50 rounded px-2 py-1 truncate">
-                  {event}
-                </div>
-              ))}
-              {events.length > 3 && (
-                <div className="text-xs text-muted-foreground">
-                  +{events.length - 3} more events...
-                </div>
-              )}
-            </div>
+          <div className="text-xs text-gray-600 mb-2 pb-2 border-b border-gray-100">
+            <span className="font-medium">{events.length} imported events</span>
           </div>
         )}
         
-        {/* Editable textarea */}
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-foreground">
-            Editable Text for PDF:
-          </label>
+        {/* Editable textarea - main content area */}
+        <div className="flex-1">
           <Textarea
             value={editableText}
             onChange={(e) => onTextChange(e.target.value)}
-            placeholder={`Add custom text for ${month}...`}
-            className="min-h-[120px] resize-none border-2 focus:border-primary/50"
+            placeholder={`Add your plans for ${month}...`}
+            className="w-full h-full resize-none border-0 shadow-none focus:ring-0 p-0 text-sm leading-relaxed placeholder:text-gray-400"
           />
-        </div>
-        
-        {/* Events count badge */}
-        <div className="flex justify-between items-center pt-2 border-t">
-          <span className="text-xs text-muted-foreground">
-            {events.length} events imported
-          </span>
-          <div 
-            className={`px-3 py-1 rounded-full text-white text-xs font-medium`}
-            style={{ backgroundColor: `hsl(var(--${month.toLowerCase()}))` }}
-          >
-            {month.slice(0, 3).toUpperCase()}
-          </div>
         </div>
       </div>
     </Card>

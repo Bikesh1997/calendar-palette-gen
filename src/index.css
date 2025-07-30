@@ -34,26 +34,30 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 234 89% 74%;
 
-    /* Monthly Color Palette */
-    --january: 198 93% 60%;
-    --february: 330 81% 60%;
-    --march: 142 69% 58%;
-    --april: 47 96% 74%;
-    --may: 123 46% 64%;
-    --june: 217 91% 60%;
-    --july: 24 95% 53%;
-    --august: 45 93% 47%;
-    --september: 262 83% 58%;
-    --october: 25 95% 53%;
-    --november: 221 83% 53%;
-    --december: 346 87% 43%;
+    /* Monthly Color Palette - Matching the reference */
+    --january: 330 81% 60%;      /* Pink */
+    --february: 262 83% 58%;     /* Purple */
+    --march: 123 46% 64%;        /* Green */
+    --april: 198 93% 60%;        /* Light Blue */
+    --may: 45 93% 47%;           /* Yellow */
+    --june: 330 81% 60%;         /* Pink */
+    --july: 330 81% 60%;         /* Pink */
+    --august: 262 83% 58%;       /* Purple */
+    --september: 123 46% 64%;    /* Green */
+    --october: 198 93% 60%;      /* Light Blue */
+    --november: 45 93% 47%;      /* Yellow */
+    --december: 330 81% 60%;     /* Pink */
+
+    /* Header color - Orange like reference */
+    --header-orange: 16 100% 66%;
 
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(234 89% 84%));
     --gradient-hero: linear-gradient(135deg, hsl(245 20% 98%), hsl(234 89% 94%));
+    --gradient-header: linear-gradient(135deg, hsl(var(--header-orange)), hsl(16 100% 76%));
     
     /* Shadows */
-    --shadow-card: 0 4px 20px -8px hsl(var(--primary) / 0.15);
+    --shadow-card: 0 2px 8px -2px hsl(0 0% 0% / 0.1);
     --shadow-elevated: 0 8px 30px -12px hsl(var(--primary) / 0.25);
 
     --radius: 0.5rem;

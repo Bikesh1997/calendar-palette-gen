@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import CalendarUpload from '@/components/CalendarUpload';
 import MonthlyCard from '@/components/MonthlyCard';
-import { parseICSFile, MonthlyEvents, getEventsAsText } from '@/utils/calendarParser';
+import { parseICSFile, MonthlyEvents, CalendarEvent } from '@/utils/calendarParser';
 import { generatePDF, MonthData } from '@/utils/pdfGenerator';
 import { Download, Calendar as CalendarIcon } from 'lucide-react';
 
@@ -15,6 +15,7 @@ const MONTHS = [
 const Index = () => {
   const [monthlyEvents, setMonthlyEvents] = useState<MonthlyEvents>({});
   const [editableTexts, setEditableTexts] = useState<Record<string, string>>({});
+  const [editedEvents, setEditedEvents] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const [hasData, setHasData] = useState(false);
   const { toast } = useToast();
@@ -26,20 +27,17 @@ const Index = () => {
       setMonthlyEvents(events);
       setHasData(true);
       
-      // Initialize editable texts with event summaries
+      // Initialize editable texts as empty - events will be shown separately
       const initialTexts: Record<string, string> = {};
       MONTHS.forEach(month => {
-        const monthEvents = events[month] || [];
-        initialTexts[month] = monthEvents
-          .map(event => `• ${event.title}`)
-          .join('\n');
+        initialTexts[month] = '';
       });
       setEditableTexts(initialTexts);
 
       const totalEvents = Object.values(events).reduce((sum, events) => sum + events.length, 0);
       toast({
         title: "Calendar imported successfully!",
-        description: `Imported ${totalEvents} events from your calendar.`
+        description: `Imported ${totalEvents} events. Click on any event to edit it inline.`
       });
     } catch (error) {
       toast({
@@ -59,6 +57,13 @@ const Index = () => {
     });
   };
 
+  const handleEventEdit = (month: string, eventId: string, newText: string) => {
+    setEditedEvents(prev => ({
+      ...prev,
+      [`${month}-${eventId}`]: newText
+    }));
+  };
+
   const handleTextChange = (month: string, text: string) => {
     setEditableTexts(prev => ({
       ...prev,
@@ -69,17 +74,31 @@ const Index = () => {
   const generatePDFReport = async () => {
     setLoading(true);
     try {
-      const monthsData: MonthData[] = MONTHS.map(month => ({
-        month,
-        text: editableTexts[month] || '',
-        eventCount: monthlyEvents[month]?.length || 0
-      }));
+      const monthsData: MonthData[] = MONTHS.map(month => {
+        const monthEvents = monthlyEvents[month] || [];
+        const events = monthEvents.map(event => {
+          const editKey = `${month}-${event.id}`;
+          const editedText = editedEvents[editKey];
+          if (editedText) {
+            return { id: event.id, text: editedText };
+          }
+          const day = event.start.getDate().toString().padStart(2, '0');
+          return { id: event.id, text: `[${day}] ${event.title}` };
+        });
+
+        return {
+          month,
+          events,
+          additionalNotes: editableTexts[month] || '',
+          eventCount: monthEvents.length
+        };
+      });
 
       await generatePDF(monthsData);
       
       toast({
         title: "PDF generated successfully!",
-        description: "Your calendar overview has been downloaded."
+        description: "Your yearly planner PDF has been downloaded in A4 landscape format."
       });
     } catch (error) {
       toast({
@@ -137,16 +156,17 @@ const Index = () => {
               </Button>
             </div>
 
-            {/* Grid layout matching reference: 3 columns x 4 rows */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8 max-w-6xl mx-auto">
+            {/* Grid layout: 4x3 for landscape PDF compatibility */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8 max-w-7xl mx-auto">
               {MONTHS.map((month, index) => (
                 <MonthlyCard
                   key={month}
                   month={month}
                   monthIndex={index}
-                  events={getEventsAsText(monthlyEvents[month] || [])}
+                  events={monthlyEvents[month] || []}
                   editableText={editableTexts[month] || ''}
                   onTextChange={(text) => handleTextChange(month, text)}
+                  onEventEdit={(eventId, newText) => handleEventEdit(month, eventId, newText)}
                 />
               ))}
             </div>
@@ -159,6 +179,7 @@ const Index = () => {
                   setHasData(false);
                   setMonthlyEvents({});
                   setEditableTexts({});
+                  setEditedEvents({});
                 }}
                 className="border-primary/30 hover:border-primary/50"
               >

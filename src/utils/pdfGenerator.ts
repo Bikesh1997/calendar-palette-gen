@@ -3,103 +3,113 @@ import html2canvas from 'html2canvas';
 
 export interface MonthData {
   month: string;
-  text: string;
+  events: Array<{id: string, text: string}>;
+  additionalNotes: string;
   eventCount: number;
 }
 
 export const generatePDF = async (monthsData: MonthData[]): Promise<void> => {
-  const pdf = new jsPDF('p', 'mm', 'a4');
-  const pageWidth = pdf.internal.pageSize.getWidth();
-  const pageHeight = pdf.internal.pageSize.getHeight();
+  // Create A4 landscape PDF
+  const pdf = new jsPDF('l', 'mm', 'a4'); // 'l' for landscape
+  const pageWidth = pdf.internal.pageSize.getWidth(); // ~297mm
+  const pageHeight = pdf.internal.pageSize.getHeight(); // ~210mm
   
   // Title
-  pdf.setFontSize(24);
+  pdf.setFontSize(20);
   pdf.setTextColor(60, 60, 60);
-  pdf.text('Annual Calendar Overview', pageWidth / 2, 20, { align: 'center' });
+  pdf.text('Editable Yearly Planner', pageWidth / 2, 15, { align: 'center' });
   
   // Add date
-  pdf.setFontSize(10);
+  pdf.setFontSize(8);
   pdf.setTextColor(120, 120, 120);
   const currentDate = new Date().toLocaleDateString();
-  pdf.text(`Generated on ${currentDate}`, pageWidth / 2, 28, { align: 'center' });
+  pdf.text(`Generated on ${currentDate}`, pageWidth / 2, 20, { align: 'center' });
+
+  // 4x3 grid layout for landscape
+  const cardWidth = (pageWidth - 40) / 4; // 4 columns
+  const cardHeight = (pageHeight - 50) / 3; // 3 rows
+  const margin = 20;
+  let currentY = 30;
 
   const monthColors = [
-    [70, 130, 180],    // January - Steel Blue
-    [220, 20, 60],     // February - Crimson
-    [60, 179, 113],    // March - Medium Sea Green
-    [255, 215, 0],     // April - Gold
-    [138, 43, 226],    // May - Blue Violet
-    [30, 144, 255],    // June - Dodger Blue
-    [255, 69, 0],      // July - Red Orange
-    [255, 140, 0],     // August - Dark Orange
-    [148, 0, 211],     // September - Dark Violet
-    [255, 99, 71],     // October - Tomato
-    [72, 61, 139],     // November - Dark Slate Blue
-    [220, 20, 60]      // December - Crimson
+    [220, 20, 140],    // January - Pink
+    [138, 43, 226],    // February - Purple  
+    [60, 179, 113],    // March - Green
+    [70, 130, 180],    // April - Light Blue
+    [255, 215, 0],     // May - Yellow
+    [220, 20, 140],    // June - Pink
+    [220, 20, 140],    // July - Pink
+    [138, 43, 226],    // August - Purple
+    [60, 179, 113],    // September - Green
+    [70, 130, 180],    // October - Light Blue
+    [255, 215, 0],     // November - Yellow
+    [220, 20, 140]     // December - Pink
   ];
 
-  const cardWidth = (pageWidth - 30) / 3; // 3 columns with margins
-  const cardHeight = 45;
-  const margin = 10;
-  let currentY = 40;
-
   monthsData.forEach((monthData, index) => {
-    const col = index % 3;
-    const row = Math.floor(index / 3);
+    const col = index % 4; // 4 columns
+    const row = Math.floor(index / 4); // 3 rows
     
     const x = margin + col * (cardWidth + 5);
     const y = currentY + row * (cardHeight + 5);
 
-    // Check if we need a new page
-    if (y + cardHeight > pageHeight - 20) {
-      pdf.addPage();
-      currentY = 20;
-      const newRow = 0;
-      const newY = currentY + newRow * (cardHeight + 5);
-    }
-
-    const finalY = y;
     const color = monthColors[index];
     
     // Draw card background
-    pdf.setFillColor(248, 249, 250);
-    pdf.rect(x, finalY, cardWidth, cardHeight, 'F');
+    pdf.setFillColor(255, 255, 255);
+    pdf.rect(x, y, cardWidth, cardHeight, 'F');
     
     // Draw colored header
     pdf.setFillColor(color[0], color[1], color[2]);
-    pdf.rect(x, finalY, cardWidth, 8, 'F');
+    pdf.rect(x, y, cardWidth, 12, 'F');
     
     // Month name in header
-    pdf.setFontSize(12);
+    pdf.setFontSize(10);
     pdf.setTextColor(255, 255, 255);
-    pdf.text(monthData.month.toUpperCase(), x + cardWidth / 2, finalY + 5.5, { align: 'center' });
+    pdf.text(monthData.month, x + cardWidth / 2, y + 8, { align: 'center' });
     
-    // Event count
-    pdf.setFontSize(8);
-    pdf.setTextColor(100, 100, 100);
-    pdf.text(`${monthData.eventCount} events`, x + 2, finalY + 12);
-    
-    // Content text
-    pdf.setFontSize(8);
+    // Events content
+    let contentY = y + 18;
+    pdf.setFontSize(7);
     pdf.setTextColor(60, 60, 60);
-    const lines = pdf.splitTextToSize(monthData.text || 'No custom text added', cardWidth - 4);
     
-    // Limit lines to fit in card
-    const maxLines = Math.floor((cardHeight - 15) / 3);
-    const displayLines = lines.slice(0, maxLines);
+    // Display imported events
+    if (monthData.events.length > 0) {
+      pdf.setTextColor(100, 100, 100);
+      pdf.text(`Events (${monthData.events.length}):`, x + 2, contentY);
+      contentY += 4;
+      
+      pdf.setTextColor(60, 60, 60);
+      monthData.events.forEach((event, eventIndex) => {
+        if (contentY + 3 < y + cardHeight - 15) { // Check if we have space
+          const eventText = pdf.splitTextToSize(event.text, cardWidth - 4);
+          pdf.text(eventText[0], x + 2, contentY);
+          contentY += 3;
+        }
+      });
+      
+      contentY += 2; // Add some space before notes
+    }
     
-    displayLines.forEach((line: string, lineIndex: number) => {
-      pdf.text(line, x + 2, finalY + 18 + lineIndex * 3);
-    });
-    
-    if (lines.length > maxLines) {
-      pdf.setTextColor(150, 150, 150);
-      pdf.text('...', x + cardWidth - 8, finalY + 18 + (maxLines - 1) * 3);
+    // Additional notes
+    if (monthData.additionalNotes && contentY + 6 < y + cardHeight - 5) {
+      pdf.setTextColor(100, 100, 100);
+      pdf.text('Notes:', x + 2, contentY);
+      contentY += 4;
+      
+      pdf.setTextColor(60, 60, 60);
+      const noteLines = pdf.splitTextToSize(monthData.additionalNotes, cardWidth - 4);
+      const maxNoteLines = Math.floor((y + cardHeight - contentY - 5) / 3);
+      
+      noteLines.slice(0, maxNoteLines).forEach((line: string) => {
+        pdf.text(line, x + 2, contentY);
+        contentY += 3;
+      });
     }
     
     // Draw border
     pdf.setDrawColor(220, 220, 220);
-    pdf.rect(x, finalY, cardWidth, cardHeight);
+    pdf.rect(x, y, cardWidth, cardHeight);
   });
 
   // Save the PDF

@@ -77,11 +77,18 @@ export const parseICSFile = async (file: File): Promise<MonthlyEvents> => {
 };
 
 export const formatEventForDisplay = (event: CalendarEvent): string => {
-  const date = event.start.toLocaleDateString();
-  const time = event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  return `${date} ${time} - ${event.title}`;
+  const day = event.start.getDate().toString().padStart(2, '0');
+  return `[${day}] ${event.title}`;
 };
 
-export const getEventsAsText = (events: CalendarEvent[]): string[] => {
-  return events.map(formatEventForDisplay);
+export const getEventsAsText = (events: CalendarEvent[]): string => {
+  return events.map(formatEventForDisplay).join('\n');
+};
+
+export const getEventsAsFormattedList = (events: CalendarEvent[]): Array<{id: string, text: string, date: Date}> => {
+  return events.map(event => ({
+    id: event.id,
+    text: formatEventForDisplay(event),
+    date: event.start
+  }));
 };

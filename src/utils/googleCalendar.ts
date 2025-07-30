@@ -15,8 +15,17 @@ interface GoogleCalendarEvent {
   location?: string;
 }
 
-export const initiateGoogleAuth = (): void => {
-  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || 'your-google-client-id';
+export const initiateGoogleAuth = async (): Promise<void> => {
+  // Get client ID from the edge function
+  const response = await fetch('https://kpepkntkbhwybcofmstt.supabase.co/functions/v1/google-calendar-config', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtwZXBrbnRrYmh3eWJjb2Ztc3R0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM4ODM3NjksImV4cCI6MjA2OTQ1OTc2OX0.dQ0igQkAyZ0At0zPbDdnc94XYas9T60_0ytBetlVJq4`,
+    },
+  });
+  
+  const { clientId } = await response.json();
   const redirectUri = `${window.location.origin}/auth/google/callback`;
   
   const scope = 'https://www.googleapis.com/auth/calendar.readonly';
@@ -62,14 +71,11 @@ export const initiateGoogleAuth = (): void => {
 export const exchangeCodeForEvents = async (code: string): Promise<MonthlyEvents> => {
   const redirectUri = `${window.location.origin}/auth/google/callback`;
   
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-  
-  const response = await fetch(`${supabaseUrl}/functions/v1/google-calendar`, {
+  const response = await fetch('https://kpepkntkbhwybcofmstt.supabase.co/functions/v1/google-calendar', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${supabaseKey}`,
+      'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtwZXBrbnRrYmh3eWJjb2Ztc3R0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM4ODM3NjksImV4cCI6MjA2OTQ1OTc2OX0.dQ0igQkAyZ0At0zPbDdnc94XYas9T60_0ytBetlVJq4`,
     },
     body: JSON.stringify({
       code,

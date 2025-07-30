@@ -4,6 +4,7 @@ import { useToast } from '@/hooks/use-toast';
 import CalendarUpload from '@/components/CalendarUpload';
 import MonthlyCard from '@/components/MonthlyCard';
 import { parseICSFile, MonthlyEvents, CalendarEvent } from '@/utils/calendarParser';
+import { initiateGoogleAuth, exchangeCodeForEvents } from '@/utils/googleCalendar';
 import { generatePDF, MonthData } from '@/utils/pdfGenerator';
 import { Download, Calendar as CalendarIcon } from 'lucide-react';
 
@@ -51,10 +52,61 @@ const Index = () => {
   };
 
   const handleGoogleConnect = () => {
-    toast({
-      title: "Coming soon!",
-      description: "Google Calendar integration will be available in the next update."
-    });
+    setLoading(true);
+    
+    try {
+      initiateGoogleAuth();
+      
+      // Listen for auth completion
+      const handleMessage = async (event: MessageEvent) => {
+        if (event.origin !== window.location.origin) return;
+        
+        if (event.data.type === 'GOOGLE_AUTH_SUCCESS' && event.data.code) {
+          try {
+            const events = await exchangeCodeForEvents(event.data.code);
+            setMonthlyEvents(events);
+            setHasData(true);
+            
+            // Initialize editable texts as empty
+            const initialTexts: Record<string, string> = {};
+            MONTHS.forEach(month => {
+              initialTexts[month] = '';
+            });
+            setEditableTexts(initialTexts);
+
+            const totalEvents = Object.values(events).reduce((sum, events) => sum + events.length, 0);
+            toast({
+              title: "Google Calendar connected successfully!",
+              description: `Imported ${totalEvents} events. Click on any event to edit it inline.`
+            });
+          } catch (error) {
+            toast({
+              variant: "destructive",
+              title: "Import failed",
+              description: error instanceof Error ? error.message : "Failed to import Google Calendar events"
+            });
+          } finally {
+            setLoading(false);
+            window.removeEventListener('message', handleMessage);
+          }
+        }
+      };
+
+      window.addEventListener('message', handleMessage);
+      
+      // Remove loading state after a short delay if no response
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000);
+      
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Connection failed",
+        description: "Failed to connect to Google Calendar"
+      });
+      setLoading(false);
+    }
   };
 
   const handleEventEdit = (month: string, eventId: string, newText: string) => {

@@ -69,7 +69,7 @@ const CalendarUpload: React.FC<CalendarUploadProps> = ({
             className="border-primary/30 hover:border-primary/50 hover:bg-primary/5"
           >
             <Link className="w-5 h-5 mr-2" />
-            Connect Google Calendar
+            {loading ? 'Connecting...' : 'Connect Google Calendar'}
           </Button>
         </div>
 
@@ -81,8 +81,9 @@ const CalendarUpload: React.FC<CalendarUploadProps> = ({
           className="hidden"
         />
 
-        <div className="text-xs text-muted-foreground">
-          Supported formats: .ics (iCalendar)
+        <div className="text-xs text-muted-foreground space-y-1">
+          <div>Supported formats: .ics (iCalendar)</div>
+          <div>Google Calendar: Requires OAuth setup in Supabase</div>
         </div>
       </div>
     </Card>

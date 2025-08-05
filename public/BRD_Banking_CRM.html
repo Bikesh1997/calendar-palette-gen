@@ -1,0 +1,995 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Requirements Document - Banking CRM</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #0d9488;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .logo {
+            max-height: 60px;
+            margin-bottom: 10px;
+        }
+        h1 {
+            color: #0d9488;
+            font-size: 2.5em;
+            margin: 0;
+        }
+        h2 {
+            color: #0d9488;
+            border-bottom: 2px solid #0d9488;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #047857;
+            margin-top: 25px;
+        }
+        h4 {
+            color: #065f46;
+            margin-top: 20px;
+        }
+        .toc {
+            background-color: #f0fdfa;
+            padding: 20px;
+            border-left: 4px solid #0d9488;
+            margin: 20px 0;
+        }
+        .toc ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .toc li {
+            margin: 5px 0;
+        }
+        .toc a {
+            text-decoration: none;
+            color: #0d9488;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #0d9488;
+            color: white;
+        }
+        .role-table {
+            background-color: #f8fafc;
+        }
+        .section {
+            margin: 30px 0;
+            page-break-inside: avoid;
+        }
+        .highlight {
+            background-color: #fef3c7;
+            padding: 10px;
+            border-left: 4px solid #f59e0b;
+            margin: 15px 0;
+        }
+        .note {
+            background-color: #dbeafe;
+            padding: 10px;
+            border-left: 4px solid #3b82f6;
+            margin: 15px 0;
+        }
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .feature-card {
+            background-color: #f8fafc;
+            padding: 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+        }
+        @media print {
+            body { margin: 0; }
+            .section { page-break-inside: avoid; }
+            h2 { page-break-before: always; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="/assets/5ccc9724-2ba0-44fc-a4a4-d4a85dc072aa.png" alt="Ujjivan Small Finance Bank" class="logo">
+        <h1>Business Requirements Document</h1>
+        <p><strong>Banking CRM - Sales Force Automation Platform</strong></p>
+        <p>Version 1.0 | Date: December 2024</p>
+    </div>
+
+    <div class="toc">
+        <h2>Table of Contents</h2>
+        <ul>
+            <li><a href="#executive-summary">1. Executive Summary</a></li>
+            <li><a href="#business-context">2. Business Context</a></li>
+            <li><a href="#stakeholder-analysis">3. Stakeholder Analysis</a></li>
+            <li><a href="#functional-requirements">4. Functional Requirements</a></li>
+            <li><a href="#non-functional-requirements">5. Non-Functional Requirements</a></li>
+            <li><a href="#user-journey">6. User Journey Mapping</a></li>
+            <li><a href="#integration-requirements">7. System Integration Requirements</a></li>
+            <li><a href="#data-requirements">8. Data Requirements</a></li>
+            <li><a href="#security-compliance">9. Security & Compliance</a></li>
+            <li><a href="#technical-architecture">10. Technical Architecture</a></li>
+            <li><a href="#implementation-roadmap">11. Implementation Roadmap</a></li>
+            <li><a href="#risk-assessment">12. Risk Assessment</a></li>
+            <li><a href="#acceptance-criteria">13. Acceptance Criteria</a></li>
+        </ul>
+    </div>
+
+    <section id="executive-summary" class="section">
+        <h2>1. Executive Summary</h2>
+        
+        <h3>1.1 Project Overview</h3>
+        <p>The Banking CRM is a comprehensive Sales Force Automation Platform designed specifically for Ujjivan Small Finance Bank. This web-based application aims to streamline sales operations, enhance customer relationship management, and improve overall sales performance across multiple organizational levels and departments.</p>
+        
+        <h3>1.2 Business Objectives</h3>
+        <ul>
+            <li>Centralize lead management and customer interactions across all touchpoints</li>
+            <li>Improve sales team productivity through automation and intelligent workflows</li>
+            <li>Enable real-time monitoring and analytics for supervisory and management roles</li>
+            <li>Enhance customer experience through comprehensive 360-degree customer view</li>
+            <li>Automate sales processes and reduce manual administrative tasks</li>
+            <li>Implement robust performance tracking and KPI management</li>
+            <li>Support mobile-first approach for field sales teams</li>
+        </ul>
+
+        <h3>1.3 Scope</h3>
+        <p>The system encompasses lead management, customer relationship management, sales performance tracking, territory management, and comprehensive analytics across five distinct user roles within the banking organization.</p>
+
+        <div class="highlight">
+            <strong>Key Success Metrics:</strong>
+            <ul>
+                <li>25% increase in lead conversion rates</li>
+                <li>30% reduction in sales cycle time</li>
+                <li>40% improvement in customer satisfaction scores</li>
+                <li>50% reduction in administrative tasks</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="business-context" class="section">
+        <h2>2. Business Context</h2>
+        
+        <h3>2.1 Current State Analysis</h3>
+        <p>Ujjivan Small Finance Bank currently operates with fragmented sales processes across multiple channels and departments. The lack of a unified CRM system has resulted in:</p>
+        <ul>
+            <li>Inconsistent lead tracking and follow-up processes</li>
+            <li>Limited visibility into sales performance metrics</li>
+            <li>Inefficient territory and resource allocation</li>
+            <li>Fragmented customer interaction history</li>
+            <li>Manual reporting and analytics processes</li>
+        </ul>
+
+        <h3>2.2 Business Drivers</h3>
+        <ul>
+            <li><strong>Digital Transformation:</strong> Need to modernize sales operations with digital tools</li>
+            <li><strong>Competitive Advantage:</strong> Improve customer acquisition and retention in competitive banking sector</li>
+            <li><strong>Regulatory Compliance:</strong> Ensure proper documentation and audit trails for banking regulations</li>
+            <li><strong>Scalability:</strong> Support business growth and expansion into new markets</li>
+            <li><strong>Operational Efficiency:</strong> Reduce costs and improve productivity through automation</li>
+        </ul>
+
+        <h3>2.3 Target Outcomes</h3>
+        <div class="feature-list">
+            <div class="feature-card">
+                <h4>Improved Sales Performance</h4>
+                <p>Increase conversion rates and reduce sales cycle time through better lead management and tracking.</p>
+            </div>
+            <div class="feature-card">
+                <h4>Enhanced Customer Experience</h4>
+                <p>Provide personalized service through comprehensive customer insights and interaction history.</p>
+            </div>
+            <div class="feature-card">
+                <h4>Operational Excellence</h4>
+                <p>Streamline processes, reduce manual work, and improve overall operational efficiency.</p>
+            </div>
+            <div class="feature-card">
+                <h4>Data-Driven Decisions</h4>
+                <p>Enable management to make informed decisions through real-time analytics and reporting.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="stakeholder-analysis" class="section">
+        <h2>3. Stakeholder Analysis</h2>
+        
+        <h3>3.1 User Roles and Responsibilities</h3>
+        
+        <table class="role-table">
+            <thead>
+                <tr>
+                    <th>Role</th>
+                    <th>Department</th>
+                    <th>Primary Responsibilities</th>
+                    <th>Access Level</th>
+                    <th>Key Features</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Sales Executive</strong></td>
+                    <td>Field/Inbound</td>
+                    <td>Lead conversion, customer acquisition, daily sales activities</td>
+                    <td>Individual Access</td>
+                    <td>My Leads, Customer 360, Pipeline, Tasks, Plan My Day</td>
+                </tr>
+                <tr>
+                    <td><strong>Supervisor</strong></td>
+                    <td>Management</td>
+                    <td>Team management, performance monitoring, territory oversight</td>
+                    <td>Team Access</td>
+                    <td>Portfolio, Team Performance, Analytics, Territory Management</td>
+                </tr>
+                <tr>
+                    <td><strong>Inbound Agent</strong></td>
+                    <td>Contact Center</td>
+                    <td>Handle incoming inquiries, lead qualification, customer support</td>
+                    <td>Inbound Access</td>
+                    <td>Lead Management, Customer Interaction, Call Logging</td>
+                </tr>
+                <tr>
+                    <td><strong>Relationship Manager</strong></td>
+                    <td>Branch</td>
+                    <td>Customer relationship building, portfolio management, cross-selling</td>
+                    <td>Branch Access</td>
+                    <td>Customer Analytics, Portfolio, Relationship Tools</td>
+                </tr>
+                <tr>
+                    <td><strong>System Administrator</strong></td>
+                    <td>IT/Operations</td>
+                    <td>System configuration, user management, rule setup</td>
+                    <td>Full System Access</td>
+                    <td>All Administrative Functions, Configuration, Reports</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>3.2 Stakeholder Requirements</h3>
+        
+        <h4>Primary Stakeholders</h4>
+        <ul>
+            <li><strong>Sales Teams:</strong> Intuitive interface, mobile accessibility, real-time data updates</li>
+            <li><strong>Management:</strong> Comprehensive analytics, team performance visibility, ROI tracking</li>
+            <li><strong>IT Department:</strong> Scalable architecture, security compliance, easy maintenance</li>
+            <li><strong>Compliance Team:</strong> Audit trails, data security, regulatory reporting</li>
+        </ul>
+
+        <h4>Secondary Stakeholders</h4>
+        <ul>
+            <li><strong>Customers:</strong> Improved service quality, faster response times</li>
+            <li><strong>Partners:</strong> Integration capabilities, data sharing protocols</li>
+            <li><strong>Regulators:</strong> Compliance reporting, data protection measures</li>
+        </ul>
+    </section>
+
+    <section id="functional-requirements" class="section">
+        <h2>4. Functional Requirements</h2>
+        
+        <h3>4.1 Lead Management Module</h3>
+        
+        <h4>4.1.1 Lead Lifecycle Management</h4>
+        <ul>
+            <li><strong>Lead Capture:</strong> Multi-channel lead ingestion (Website, WhatsApp, Call Center)</li>
+            <li><strong>Lead Assignment:</strong> Automated assignment based on territory, product, and workload</li>
+            <li><strong>Lead Qualification:</strong> Scoring mechanism and qualification workflows</li>
+            <li><strong>Lead Nurturing:</strong> Automated follow-up sequences and reminders</li>
+            <li><strong>Lead Conversion:</strong> Conversion tracking and success metrics</li>
+        </ul>
+
+        <h4>4.1.2 Lead Management Features</h4>
+        <div class="feature-list">
+            <div class="feature-card">
+                <h4>Lead Dashboard</h4>
+                <ul>
+                    <li>Real-time lead status overview</li>
+                    <li>Priority-based lead sorting</li>
+                    <li>Quick action buttons</li>
+                    <li>Performance metrics display</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h4>Lead Interaction Tools</h4>
+                <ul>
+                    <li>Call logging and recording</li>
+                    <li>Email integration</li>
+                    <li>Notes and comment system</li>
+                    <li>Document attachment</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h4>Lead Analytics</h4>
+                <ul>
+                    <li>Conversion rate tracking</li>
+                    <li>Source performance analysis</li>
+                    <li>Time-to-conversion metrics</li>
+                    <li>Lead quality scoring</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>4.2 Customer Relationship Management</h3>
+        
+        <h4>4.2.1 Customer 360 View</h4>
+        <ul>
+            <li><strong>Profile Management:</strong> Comprehensive customer profiles with demographics, preferences, and history</li>
+            <li><strong>Interaction History:</strong> Complete timeline of all customer touchpoints and communications</li>
+            <li><strong>Product Portfolio:</strong> Current products, services, and account information</li>
+            <li><strong>Family Relationships:</strong> Family group management and relationship mapping</li>
+            <li><strong>Financial Overview:</strong> Account balances, transaction history, and financial behavior</li>
+        </ul>
+
+        <h4>4.2.2 Customer Engagement Tools</h4>
+        <ul>
+            <li>Cross-selling opportunity identification</li>
+            <li>Goal-based financial nudges and recommendations</li>
+            <li>Personalized offer creation and management</li>
+            <li>Customer satisfaction tracking and feedback collection</li>
+            <li>Loyalty program management</li>
+        </ul>
+
+        <h3>4.3 Sales Performance Management</h3>
+        
+        <h4>4.3.1 Sales Pipeline Management</h4>
+        <ul>
+            <li><strong>Visual Pipeline:</strong> Interactive funnel charts showing sales progression</li>
+            <li><strong>Stage Management:</strong> Customizable sales stages with defined criteria</li>
+            <li><strong>Probability Tracking:</strong> Win probability assessment for each opportunity</li>
+            <li><strong>Forecast Accuracy:</strong> Revenue forecasting and pipeline analysis</li>
+        </ul>
+
+        <h4>4.3.2 KPA/KRA Management</h4>
+        <ul>
+            <li><strong>Performance Metrics:</strong> Key Performance Area (KPA) tracking and monitoring</li>
+            <li><strong>Goal Setting:</strong> Key Result Area (KRA) configuration and management</li>
+            <li><strong>Incentive Management:</strong> Performance-based incentive calculation and tracking</li>
+            <li><strong>Performance Reviews:</strong> Regular performance assessment and feedback cycles</li>
+        </ul>
+
+        <h3>4.4 Task and Activity Management</h3>
+        
+        <h4>4.4.1 Task Management System</h4>
+        <ul>
+            <li><strong>Task Creation:</strong> Manual and automated task generation</li>
+            <li><strong>Task Assignment:</strong> Individual and team task distribution</li>
+            <li><strong>Priority Management:</strong> Task prioritization and deadline tracking</li>
+            <li><strong>Progress Tracking:</strong> Real-time task status updates and completion tracking</li>
+        </ul>
+
+        <h4>4.4.2 Daily Planning Tools</h4>
+        <ul>
+            <li><strong>Route Planning:</strong> Optimal route calculation for field visits</li>
+            <li><strong>Schedule Management:</strong> Calendar integration and appointment scheduling</li>
+            <li><strong>Smart Recommendations:</strong> AI-driven daily activity suggestions</li>
+            <li><strong>Time Tracking:</strong> Activity time logging and productivity analysis</li>
+        </ul>
+
+        <h3>4.5 Supervisor and Management Features</h3>
+        
+        <h4>4.5.1 Team Performance Monitoring</h4>
+        <ul>
+            <li><strong>Real-time Dashboards:</strong> Live performance metrics and team status</li>
+            <li><strong>Performance Comparison:</strong> Individual and team performance benchmarking</li>
+            <li><strong>Target Management:</strong> Goal setting and achievement tracking</li>
+            <li><strong>Performance Alerts:</strong> Automated notifications for performance deviations</li>
+        </ul>
+
+        <h4>4.5.2 Territory Management</h4>
+        <ul>
+            <li><strong>Geographic Mapping:</strong> Visual territory representation and boundaries</li>
+            <li><strong>Resource Allocation:</strong> Optimal resource distribution across territories</li>
+            <li><strong>Live Tracking:</strong> Real-time team location and activity monitoring</li>
+            <li><strong>Route Optimization:</strong> Efficient route planning and review capabilities</li>
+        </ul>
+
+        <h4>4.5.3 Analytics and Reporting</h4>
+        <ul>
+            <li><strong>Comprehensive Filters:</strong> Multi-dimensional data filtering (time, region, product, campaign)</li>
+            <li><strong>Custom Reports:</strong> Configurable report generation and scheduling</li>
+            <li><strong>Performance Trends:</strong> Historical analysis and trend identification</li>
+            <li><strong>Export Capabilities:</strong> Data export in multiple formats (PDF, Excel, CSV)</li>
+        </ul>
+    </section>
+
+    <section id="non-functional-requirements" class="section">
+        <h2>5. Non-Functional Requirements</h2>
+        
+        <h3>5.1 Performance Requirements</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Requirement</th>
+                    <th>Measurement Method</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Page Load Time</td>
+                    <td>< 3 seconds for 95% of requests</td>
+                    <td>Performance monitoring tools</td>
+                </tr>
+                <tr>
+                    <td>API Response Time</td>
+                    <td>< 500ms for standard operations</td>
+                    <td>API monitoring and logging</td>
+                </tr>
+                <tr>
+                    <td>Concurrent Users</td>
+                    <td>Support 500+ simultaneous users</td>
+                    <td>Load testing and monitoring</td>
+                </tr>
+                <tr>
+                    <td>System Availability</td>
+                    <td>99.5% uptime during business hours</td>
+                    <td>Uptime monitoring services</td>
+                </tr>
+                <tr>
+                    <td>Database Performance</td>
+                    <td>< 100ms for standard queries</td>
+                    <td>Database performance monitoring</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>5.2 Security Requirements</h3>
+        <ul>
+            <li><strong>Authentication:</strong> Multi-factor authentication for sensitive operations</li>
+            <li><strong>Authorization:</strong> Role-based access control with granular permissions</li>
+            <li><strong>Data Encryption:</strong> End-to-end encryption for data in transit and at rest</li>
+            <li><strong>Session Management:</strong> Secure session handling with automatic timeout</li>
+            <li><strong>Audit Trail:</strong> Comprehensive logging of all user actions and system events</li>
+            <li><strong>Data Privacy:</strong> Compliance with banking regulations and data protection laws</li>
+        </ul>
+
+        <h3>5.3 Usability Requirements</h3>
+        <ul>
+            <li><strong>User Interface:</strong> Intuitive, responsive design following modern UI/UX principles</li>
+            <li><strong>Mobile Responsiveness:</strong> Full functionality on mobile devices and tablets</li>
+            <li><strong>Accessibility:</strong> WCAG 2.1 AA compliance for accessibility standards</li>
+            <li><strong>Browser Support:</strong> Support for Chrome, Firefox, Safari, and Edge (latest 2 versions)</li>
+            <li><strong>Training Requirements:</strong> Minimal training required with intuitive interface design</li>
+        </ul>
+
+        <h3>5.4 Scalability and Reliability</h3>
+        <ul>
+            <li><strong>Horizontal Scaling:</strong> Architecture supports scaling to handle increased load</li>
+            <li><strong>Data Backup:</strong> Automated daily backups with point-in-time recovery</li>
+            <li><strong>Disaster Recovery:</strong> RTO of 4 hours and RPO of 1 hour</li>
+            <li><strong>Failover Capabilities:</strong> Automatic failover to backup systems</li>
+            <li><strong>Monitoring:</strong> Comprehensive system monitoring and alerting</li>
+        </ul>
+    </section>
+
+    <section id="user-journey" class="section">
+        <h2>6. User Journey Mapping</h2>
+        
+        <h3>6.1 Sales Executive Journey</h3>
+        <div class="note">
+            <strong>Primary Workflow:</strong> Daily lead management and customer interaction cycle
+        </div>
+        <ol>
+            <li><strong>Login and Dashboard Review:</strong> Access personal dashboard and review daily metrics</li>
+            <li><strong>Daily Planning:</strong> Use "Plan My Day" to optimize route and schedule</li>
+            <li><strong>Lead Management:</strong> Review assigned leads and prioritize follow-ups</li>
+            <li><strong>Customer Interactions:</strong> Make calls, log interactions, and update lead status</li>
+            <li><strong>Task Execution:</strong> Complete assigned tasks and update progress</li>
+            <li><strong>Customer 360 Review:</strong> Access comprehensive customer information during interactions</li>
+            <li><strong>Performance Tracking:</strong> Monitor personal KPIs and pipeline status</li>
+            <li><strong>End-of-Day Reporting:</strong> Update activities and prepare for next day</li>
+        </ol>
+
+        <h3>6.2 Supervisor Journey</h3>
+        <div class="note">
+            <strong>Primary Workflow:</strong> Team monitoring and performance management cycle
+        </div>
+        <ol>
+            <li><strong>Team Dashboard Review:</strong> Monitor overall team performance and alerts</li>
+            <li><strong>Performance Analysis:</strong> Review individual and team metrics</li>
+            <li><strong>Territory Management:</strong> Monitor geographic distribution and coverage</li>
+            <li><strong>Real-time Monitoring:</strong> Track team activities and locations</li>
+            <li><strong>Report Generation:</strong> Create and analyze performance reports</li>
+            <li><strong>Target Management:</strong> Set and adjust team targets and goals</li>
+            <li><strong>Team Support:</strong> Provide guidance and resolve escalations</li>
+            <li><strong>Strategic Planning:</strong> Use analytics for future planning and optimization</li>
+        </ol>
+
+        <h3>6.3 Admin Journey</h3>
+        <div class="note">
+            <strong>Primary Workflow:</strong> System configuration and user management cycle
+        </div>
+        <ol>
+            <li><strong>System Monitoring:</strong> Review system health and performance metrics</li>
+            <li><strong>User Management:</strong> Add, modify, or deactivate user accounts</li>
+            <li><strong>Rule Configuration:</strong> Set up business rules and automation</li>
+            <li><strong>System Configuration:</strong> Manage system settings and integrations</li>
+            <li><strong>Data Management:</strong> Oversee data quality and integrity</li>
+            <li><strong>Security Administration:</strong> Manage security policies and access controls</li>
+            <li><strong>Report Administration:</strong> Configure and distribute system reports</li>
+            <li><strong>Maintenance Activities:</strong> Perform routine system maintenance tasks</li>
+        </ol>
+    </section>
+
+    <section id="integration-requirements" class="section">
+        <h2>7. System Integration Requirements</h2>
+        
+        <h3>7.1 Internal System Integrations</h3>
+        <ul>
+            <li><strong>Core Banking System:</strong> Real-time account information and transaction data</li>
+            <li><strong>Loan Management System:</strong> Loan applications and approval workflows</li>
+            <li><strong>Document Management System:</strong> Customer document storage and retrieval</li>
+            <li><strong>Financial Planning Tools:</strong> Investment and insurance product information</li>
+            <li><strong>Compliance Systems:</strong> Regulatory reporting and audit trail management</li>
+        </ul>
+
+        <h3>7.2 External System Integrations</h3>
+        <ul>
+            <li><strong>Communication Platforms:</strong> WhatsApp Business API, SMS gateways, Email services</li>
+            <li><strong>Credit Bureau:</strong> Credit score and history verification</li>
+            <li><strong>Geographic Services:</strong> Maps, GPS tracking, and location services</li>
+            <li><strong>Payment Gateways:</strong> Online payment processing and verification</li>
+            <li><strong>Third-party Analytics:</strong> Advanced analytics and business intelligence tools</li>
+        </ul>
+
+        <h3>7.3 API Requirements</h3>
+        <ul>
+            <li><strong>RESTful APIs:</strong> Standard REST API architecture for all integrations</li>
+            <li><strong>Authentication:</strong> OAuth 2.0 and JWT token-based authentication</li>
+            <li><strong>Rate Limiting:</strong> API rate limiting to prevent abuse and ensure performance</li>
+            <li><strong>Monitoring:</strong> API usage monitoring and performance tracking</li>
+            <li><strong>Documentation:</strong> Comprehensive API documentation and examples</li>
+        </ul>
+    </section>
+
+    <section id="data-requirements" class="section">
+        <h2>8. Data Requirements</h2>
+        
+        <h3>8.1 Data Models</h3>
+        
+        <h4>8.1.1 Customer Data Model</h4>
+        <ul>
+            <li><strong>Personal Information:</strong> Name, contact details, demographics, preferences</li>
+            <li><strong>Financial Profile:</strong> Income, assets, liabilities, credit history</li>
+            <li><strong>Relationship Data:</strong> Family connections, referrals, social network</li>
+            <li><strong>Interaction History:</strong> All touchpoints, communications, and service requests</li>
+            <li><strong>Product Holdings:</strong> Current accounts, loans, investments, insurance</li>
+        </ul>
+
+        <h4>8.1.2 Lead Data Model</h4>
+        <ul>
+            <li><strong>Lead Information:</strong> Source, product interest, qualification score</li>
+            <li><strong>Contact Details:</strong> Multiple contact methods and preferences</li>
+            <li><strong>Activity Log:</strong> All interactions, calls, emails, and meetings</li>
+            <li><strong>Status Tracking:</strong> Lead progression through sales pipeline</li>
+            <li><strong>Assignment Data:</strong> Ownership, territory, and responsibility tracking</li>
+        </ul>
+
+        <h3>8.2 Data Management</h3>
+        
+        <h4>8.2.1 Data Quality</h4>
+        <ul>
+            <li><strong>Validation Rules:</strong> Comprehensive data validation and cleansing</li>
+            <li><strong>Deduplication:</strong> Automatic detection and merging of duplicate records</li>
+            <li><strong>Data Enrichment:</strong> External data sources for enhanced customer profiles</li>
+            <li><strong>Consistency Checks:</strong> Cross-system data consistency verification</li>
+        </ul>
+
+        <h4>8.2.2 Data Governance</h4>
+        <ul>
+            <li><strong>Data Ownership:</strong> Clear data ownership and stewardship responsibilities</li>
+            <li><strong>Access Controls:</strong> Granular access controls based on roles and responsibilities</li>
+            <li><strong>Data Retention:</strong> Automated data lifecycle management and archival</li>
+            <li><strong>Privacy Compliance:</strong> Data protection and privacy regulation compliance</li>
+        </ul>
+
+        <h3>8.3 Reporting and Analytics Data</h3>
+        <ul>
+            <li><strong>Performance Metrics:</strong> KPIs, conversion rates, and productivity measures</li>
+            <li><strong>Historical Data:</strong> Time-series data for trend analysis and forecasting</li>
+            <li><strong>Comparative Analytics:</strong> Benchmarking data for performance comparison</li>
+            <li><strong>Predictive Models:</strong> Data for machine learning and predictive analytics</li>
+        </ul>
+    </section>
+
+    <section id="security-compliance" class="section">
+        <h2>9. Security & Compliance</h2>
+        
+        <h3>9.1 Security Framework</h3>
+        
+        <h4>9.1.1 Access Control</h4>
+        <ul>
+            <li><strong>Multi-Factor Authentication:</strong> MFA for all user accounts</li>
+            <li><strong>Role-Based Access Control (RBAC):</strong> Granular permissions based on roles</li>
+            <li><strong>Session Management:</strong> Secure session handling with automatic timeout</li>
+            <li><strong>Password Policies:</strong> Strong password requirements and regular updates</li>
+        </ul>
+
+        <h4>9.1.2 Data Protection</h4>
+        <ul>
+            <li><strong>Encryption:</strong> AES-256 encryption for data at rest and in transit</li>
+            <li><strong>Key Management:</strong> Secure key storage and rotation policies</li>
+            <li><strong>Data Masking:</strong> Sensitive data masking in non-production environments</li>
+            <li><strong>Secure Communications:</strong> TLS 1.3 for all external communications</li>
+        </ul>
+
+        <h3>9.2 Compliance Requirements</h3>
+        
+        <h4>9.2.1 Banking Regulations</h4>
+        <ul>
+            <li><strong>RBI Guidelines:</strong> Compliance with Reserve Bank of India regulations</li>
+            <li><strong>KYC/AML:</strong> Know Your Customer and Anti-Money Laundering compliance</li>
+            <li><strong>Data Localization:</strong> Compliance with data residency requirements</li>
+            <li><strong>Audit Requirements:</strong> Comprehensive audit trails and reporting</li>
+        </ul>
+
+        <h4>9.2.2 Data Privacy</h4>
+        <ul>
+            <li><strong>Data Protection Act:</strong> Compliance with Indian data protection laws</li>
+            <li><strong>Consent Management:</strong> Customer consent tracking and management</li>
+            <li><strong>Right to Privacy:</strong> Data subject rights and privacy controls</li>
+            <li><strong>Data Breach Response:</strong> Incident response and notification procedures</li>
+        </ul>
+
+        <h3>9.3 Security Monitoring</h3>
+        <ul>
+            <li><strong>Security Information and Event Management (SIEM):</strong> Real-time security monitoring</li>
+            <li><strong>Intrusion Detection:</strong> Automated threat detection and response</li>
+            <li><strong>Vulnerability Management:</strong> Regular security assessments and updates</li>
+            <li><strong>Security Awareness:</strong> User training and security awareness programs</li>
+        </ul>
+    </section>
+
+    <section id="technical-architecture" class="section">
+        <h2>10. Technical Architecture</h2>
+        
+        <h3>10.1 System Architecture</h3>
+        
+        <h4>10.1.1 Frontend Architecture</h4>
+        <ul>
+            <li><strong>Technology Stack:</strong> React 18, TypeScript, Tailwind CSS, Vite</li>
+            <li><strong>Component Library:</strong> Shadcn/UI for consistent design system</li>
+            <li><strong>State Management:</strong> TanStack Query for server state management</li>
+            <li><strong>Routing:</strong> React Router for client-side navigation</li>
+            <li><strong>Build Tools:</strong> Vite for fast development and optimized builds</li>
+        </ul>
+
+        <h4>10.1.2 Backend Architecture</h4>
+        <ul>
+            <li><strong>API Architecture:</strong> RESTful APIs with JSON data format</li>
+            <li><strong>Authentication:</strong> JWT-based authentication with role management</li>
+            <li><strong>Database:</strong> Scalable database solution with proper indexing</li>
+            <li><strong>Caching:</strong> Redis for session management and data caching</li>
+            <li><strong>File Storage:</strong> Secure file storage for documents and media</li>
+        </ul>
+
+        <h3>10.2 Infrastructure Requirements</h3>
+        
+        <h4>10.2.1 Hosting and Deployment</h4>
+        <ul>
+            <li><strong>Cloud Infrastructure:</strong> Scalable cloud hosting solution</li>
+            <li><strong>Load Balancing:</strong> Auto-scaling and load distribution</li>
+            <li><strong>CDN:</strong> Content Delivery Network for optimal performance</li>
+            <li><strong>Backup Systems:</strong> Automated backup and disaster recovery</li>
+        </ul>
+
+        <h4>10.2.2 Monitoring and Logging</h4>
+        <ul>
+            <li><strong>Application Monitoring:</strong> Real-time application performance monitoring</li>
+            <li><strong>Error Tracking:</strong> Comprehensive error logging and alerting</li>
+            <li><strong>Analytics:</strong> User behavior and system usage analytics</li>
+            <li><strong>Health Checks:</strong> Automated system health monitoring</li>
+        </ul>
+
+        <h3>10.3 Development Standards</h3>
+        <ul>
+            <li><strong>Code Quality:</strong> ESLint, TypeScript strict mode, automated testing</li>
+            <li><strong>Version Control:</strong> Git-based version control with branching strategy</li>
+            <li><strong>CI/CD Pipeline:</strong> Automated build, test, and deployment processes</li>
+            <li><strong>Documentation:</strong> Comprehensive technical documentation and API docs</li>
+        </ul>
+    </section>
+
+    <section id="implementation-roadmap" class="section">
+        <h2>11. Implementation Roadmap</h2>
+        
+        <h3>11.1 Project Phases</h3>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Phase</th>
+                    <th>Duration</th>
+                    <th>Key Deliverables</th>
+                    <th>Success Criteria</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Phase 1: Foundation</strong></td>
+                    <td>6 weeks</td>
+                    <td>Authentication, Basic UI, User Management</td>
+                    <td>Secure login, role-based access, user creation</td>
+                </tr>
+                <tr>
+                    <td><strong>Phase 2: Core CRM</strong></td>
+                    <td>8 weeks</td>
+                    <td>Lead Management, Customer 360, Basic Analytics</td>
+                    <td>Complete lead lifecycle, customer data management</td>
+                </tr>
+                <tr>
+                    <td><strong>Phase 3: Sales Tools</strong></td>
+                    <td>6 weeks</td>
+                    <td>Pipeline Management, Task System, Mobile Optimization</td>
+                    <td>Sales funnel tracking, task management, mobile access</td>
+                </tr>
+                <tr>
+                    <td><strong>Phase 4: Advanced Features</strong></td>
+                    <td>8 weeks</td>
+                    <td>Territory Management, Advanced Analytics, Reporting</td>
+                    <td>Geographic tracking, comprehensive reports, KPI management</td>
+                </tr>
+                <tr>
+                    <td><strong>Phase 5: Integration & Polish</strong></td>
+                    <td>4 weeks</td>
+                    <td>System Integrations, Performance Optimization, UAT</td>
+                    <td>External integrations, performance targets, user acceptance</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>11.2 Critical Success Factors</h3>
+        <ul>
+            <li><strong>User Adoption:</strong> Comprehensive training and change management</li>
+            <li><strong>Data Migration:</strong> Accurate and complete data transfer from legacy systems</li>
+            <li><strong>Integration Success:</strong> Seamless integration with existing bank systems</li>
+            <li><strong>Performance Optimization:</strong> Meeting all performance and scalability requirements</li>
+            <li><strong>Security Validation:</strong> Successful security audits and penetration testing</li>
+        </ul>
+
+        <h3>11.3 Resource Requirements</h3>
+        <ul>
+            <li><strong>Development Team:</strong> Frontend developers, backend developers, QA engineers</li>
+            <li><strong>Business Analysts:</strong> Requirements gathering and process mapping</li>
+            <li><strong>Security Specialists:</strong> Security architecture and compliance validation</li>
+            <li><strong>DevOps Engineers:</strong> Infrastructure setup and deployment automation</li>
+            <li><strong>Project Management:</strong> Project coordination and stakeholder communication</li>
+        </ul>
+    </section>
+
+    <section id="risk-assessment" class="section">
+        <h2>12. Risk Assessment</h2>
+        
+        <h3>12.1 Technical Risks</h3>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Risk</th>
+                    <th>Probability</th>
+                    <th>Impact</th>
+                    <th>Mitigation Strategy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Performance degradation under load</td>
+                    <td>Medium</td>
+                    <td>High</td>
+                    <td>Load testing, performance monitoring, scalable architecture</td>
+                </tr>
+                <tr>
+                    <td>Security vulnerabilities</td>
+                    <td>Low</td>
+                    <td>Critical</td>
+                    <td>Security audits, penetration testing, secure coding practices</td>
+                </tr>
+                <tr>
+                    <td>Integration failures</td>
+                    <td>Medium</td>
+                    <td>Medium</td>
+                    <td>Thorough testing, fallback mechanisms, API versioning</td>
+                </tr>
+                <tr>
+                    <td>Data migration issues</td>
+                    <td>High</td>
+                    <td>High</td>
+                    <td>Data validation, migration testing, rollback procedures</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>12.2 Business Risks</h3>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Risk</th>
+                    <th>Probability</th>
+                    <th>Impact</th>
+                    <th>Mitigation Strategy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>User adoption resistance</td>
+                    <td>Medium</td>
+                    <td>High</td>
+                    <td>Change management, training programs, user involvement</td>
+                </tr>
+                <tr>
+                    <td>Regulatory compliance gaps</td>
+                    <td>Low</td>
+                    <td>Critical</td>
+                    <td>Regular compliance reviews, legal consultation, audit trails</td>
+                </tr>
+                <tr>
+                    <td>Budget overruns</td>
+                    <td>Medium</td>
+                    <td>Medium</td>
+                    <td>Regular budget monitoring, scope management, contingency planning</td>
+                </tr>
+                <tr>
+                    <td>Timeline delays</td>
+                    <td>High</td>
+                    <td>Medium</td>
+                    <td>Agile methodology, regular monitoring, resource flexibility</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>12.3 Risk Monitoring</h3>
+        <ul>
+            <li><strong>Regular Risk Reviews:</strong> Weekly risk assessment meetings</li>
+            <li><strong>Risk Metrics:</strong> Quantitative risk measurement and tracking</li>
+            <li><strong>Escalation Procedures:</strong> Clear escalation paths for high-impact risks</li>
+            <li><strong>Contingency Planning:</strong> Detailed contingency plans for critical risks</li>
+        </ul>
+    </section>
+
+    <section id="acceptance-criteria" class="section">
+        <h2>13. Acceptance Criteria</h2>
+        
+        <h3>13.1 Functional Acceptance Criteria</h3>
+        
+        <h4>13.1.1 Lead Management</h4>
+        <ul>
+            <li>✅ Users can create, edit, and delete leads</li>
+            <li>✅ Lead assignment automation works correctly</li>
+            <li>✅ Lead status progression follows defined workflow</li>
+            <li>✅ Lead conversion tracking provides accurate metrics</li>
+            <li>✅ Bulk lead operations function properly</li>
+        </ul>
+
+        <h4>13.1.2 Customer Management</h4>
+        <ul>
+            <li>✅ Customer 360 view displays comprehensive information</li>
+            <li>✅ Customer interaction history is complete and accurate</li>
+            <li>✅ Family relationship mapping works correctly</li>
+            <li>✅ Cross-selling opportunities are identified accurately</li>
+            <li>✅ Customer data synchronization with backend systems</li>
+        </ul>
+
+        <h4>13.1.3 Performance Management</h4>
+        <ul>
+            <li>✅ KPI calculations are accurate and real-time</li>
+            <li>✅ Performance dashboards load within acceptable time</li>
+            <li>✅ Target setting and tracking functions properly</li>
+            <li>✅ Performance reports generate correctly</li>
+            <li>✅ Analytics provide actionable insights</li>
+        </ul>
+
+        <h3>13.2 Technical Acceptance Criteria</h3>
+        
+        <h4>13.2.1 Performance</h4>
+        <ul>
+            <li>✅ Page load times under 3 seconds</li>
+            <li>✅ API response times under 500ms</li>
+            <li>✅ System supports 500+ concurrent users</li>
+            <li>✅ 99.5% uptime during business hours</li>
+            <li>✅ Mobile responsiveness on all major devices</li>
+        </ul>
+
+        <h4>13.2.2 Security</h4>
+        <ul>
+            <li>✅ All authentication mechanisms work correctly</li>
+            <li>✅ Role-based access control enforced properly</li>
+            <li>✅ Data encryption implemented correctly</li>
+            <li>✅ Audit trails capture all required events</li>
+            <li>✅ Security vulnerabilities addressed</li>
+        </ul>
+
+        <h3>13.3 User Acceptance Testing</h3>
+        
+        <h4>13.3.1 User Experience</h4>
+        <ul>
+            <li>✅ Intuitive navigation and user interface</li>
+            <li>✅ Minimal training required for basic operations</li>
+            <li>✅ Error messages are clear and helpful</li>
+            <li>✅ Workflow efficiency improvements demonstrated</li>
+            <li>✅ User satisfaction scores meet targets</li>
+        </ul>
+
+        <h4>13.3.2 Business Value</h4>
+        <ul>
+            <li>✅ Lead conversion rates improve by target percentage</li>
+            <li>✅ Sales cycle time reduction achieved</li>
+            <li>✅ Administrative task reduction demonstrated</li>
+            <li>✅ Customer satisfaction improvement measured</li>
+            <li>✅ ROI targets met within specified timeframe</li>
+        </ul>
+
+        <h3>13.4 Go-Live Criteria</h3>
+        <ul>
+            <li>✅ All acceptance criteria met and signed off</li>
+            <li>✅ User training completed for all roles</li>
+            <li>✅ Data migration validated and verified</li>
+            <li>✅ Integration testing with all external systems passed</li>
+            <li>✅ Production environment ready and stable</li>
+            <li>✅ Support processes and documentation in place</li>
+            <li>✅ Rollback procedures tested and documented</li>
+        </ul>
+    </section>
+
+    <div class="section">
+        <h2>Document Control</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Version</th>
+                    <th>Date</th>
+                    <th>Author</th>
+                    <th>Changes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1.0</td>
+                    <td>December 2024</td>
+                    <td>System Analyst</td>
+                    <td>Initial document creation</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="highlight">
+            <p><strong>Next Steps:</strong></p>
+            <ul>
+                <li>Stakeholder review and approval</li>
+                <li>Technical architecture finalization</li>
+                <li>Project planning and resource allocation</li>
+                <li>Development sprint planning</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer style="text-align: center; margin-top: 50px; padding: 20px; border-top: 1px solid #ddd;">
+        <p><strong>Ujjivan Small Finance Bank - Banking CRM Project</strong></p>
+        <p>Business Requirements Document v1.0 | December 2024</p>
+        <p style="font-size: 0.9em; color: #666;">This document contains confidential and proprietary information of Ujjivan Small Finance Bank</p>
+    </footer>
+</body>
+</html>
